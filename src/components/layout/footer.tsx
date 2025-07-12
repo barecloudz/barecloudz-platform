@@ -1,38 +1,38 @@
 import React from 'react'
 import { Link } from 'wouter'
 import { motion } from 'framer-motion'
-import { Cloud, Mail, Phone, MapPin, Twitter, Linkedin, Instagram, Github } from 'lucide-react'
+import { Cloud, Mail, Phone, MapPin, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react'
 
 const Footer: React.FC = () => {
   const footerSections = [
     {
       title: 'Services',
       links: [
+        { label: 'AI Customer Support', href: '/services/ai-support' },
+        { label: 'AI Phone Agents', href: '/services/phone-agents' },
         { label: 'Social Media Marketing', href: '/services/social-media' },
-        { label: 'SEO Optimization', href: '/services/seo' },
-        { label: 'Email Marketing', href: '/services/email' },
-        { label: 'Content Marketing', href: '/services/content' },
-        { label: 'PPC Advertising', href: '/services/ppc' },
-        { label: 'Marketing Automation', href: '/services/automation' }
+        { label: 'SEO & Local Search', href: '/services/seo' },
+        { label: 'Paid Advertising', href: '/services/ads' },
+        { label: 'Website & App Development', href: '/services/development' }
       ]
     },
     {
       title: 'Company',
       links: [
         { label: 'About Us', href: '/about' },
+        { label: 'Case Studies', href: '/case-studies' },
         { label: 'Our Team', href: '/team' },
         { label: 'Careers', href: '/careers' },
         { label: 'Press', href: '/press' },
-        { label: 'Blog', href: '/blog' },
-        { label: 'Case Studies', href: '/case-studies' }
+        { label: 'Blog', href: '/blog' }
       ]
     },
     {
       title: 'Resources',
       links: [
         { label: 'Help Center', href: '/help' },
-        { label: 'Documentation', href: '/docs' },
-        { label: 'API Reference', href: '/api' },
+        { label: 'AI Automation Guide', href: '/guide' },
+        { label: 'API Documentation', href: '/docs' },
         { label: 'Webinars', href: '/webinars' },
         { label: 'Templates', href: '/templates' },
         { label: 'Community', href: '/community' }
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
     { icon: Twitter, href: 'https://twitter.com/barecloudz', label: 'Twitter' },
     { icon: Linkedin, href: 'https://linkedin.com/company/barecloudz', label: 'LinkedIn' },
     { icon: Instagram, href: 'https://instagram.com/barecloudz', label: 'Instagram' },
-    { icon: Github, href: 'https://github.com/barecloudz', label: 'GitHub' }
+    { icon: Youtube, href: 'https://youtube.com/barecloudz', label: 'YouTube' }
   ]
 
   return (
@@ -85,8 +85,8 @@ const Footer: React.FC = () => {
                   <span className="text-2xl font-bold">BareCloudz</span>
                 </div>
                 <p className="text-gray-400 text-lg leading-relaxed mb-6">
-                  Transform your business with cutting-edge digital marketing solutions. 
-                  We create campaigns that convert and strategies that scale.
+                  Transforming local businesses with AI-powered automation and proven 
+                  digital marketing strategies. Save time, increase bookings, and boost revenue.
                 </p>
               </motion.div>
 
@@ -186,7 +186,7 @@ const Footer: React.FC = () => {
               &copy; 2025 BareCloudz. All rights reserved.
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <span>Made with ❤️ in San Francisco</span>
+              <span>Made with ❤️ for local businesses</span>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-[#35c677] rounded-full animate-pulse"></div>
                 <span>All systems operational</span>

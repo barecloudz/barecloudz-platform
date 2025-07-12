@@ -8,63 +8,63 @@ const Testimonials: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: 'Sarah Johnson',
-      role: 'CEO',
-      company: 'TechFlow Solutions',
+      name: 'Maria Rodriguez',
+      role: 'Owner',
+      company: 'Bella Vista Restaurant',
       avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150',
-      content: 'BareCloudz transformed our marketing completely. We saw a 300% increase in qualified leads within the first quarter. Their AI-powered approach is simply revolutionary.',
+      content: 'The AI phone agent has been a game-changer for our restaurant. We\'re taking 40% more orders and our staff can focus on food quality instead of answering phones all day.',
       rating: 5,
-      results: '+300% leads'
+      results: '+40% orders'
     },
     {
       id: 2,
-      name: 'Michael Chen',
-      role: 'Marketing Director',
-      company: 'GrowthLab Inc',
+      name: 'David Chen',
+      role: 'Manager',
+      company: 'Elite Fitness Gym',
       avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150',
-      content: 'The level of personalization and automation they achieved for our campaigns is incredible. Our ROI improved by 250% and customer acquisition costs dropped significantly.',
+      content: 'Our AI assistant handles membership inquiries and class bookings 24/7. We\'ve seen a 60% increase in new member sign-ups since implementing the system.',
       rating: 5,
-      results: '+250% ROI'
+      results: '+60% sign-ups'
     },
     {
       id: 3,
-      name: 'Emily Rodriguez',
-      role: 'Founder',
-      company: 'EcoVenture',
+      name: 'Sarah Thompson',
+      role: 'Owner',
+      company: 'Thompson Dental Care',
       avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150',
-      content: 'Working with BareCloudz feels like having a team of marketing experts in the cloud. Their strategies are data-driven, creative, and deliver real business impact.',
+      content: 'The appointment booking automation has eliminated double bookings and reduced no-shows by 30%. Our patients love the instant confirmation and reminders.',
       rating: 5,
-      results: '+180% revenue'
+      results: '-30% no-shows'
     },
     {
       id: 4,
-      name: 'David Park',
-      role: 'VP Marketing',
-      company: 'InnovateCorp',
+      name: 'Mike Johnson',
+      role: 'Owner',
+      company: 'Johnson Auto Repair',
       avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150',
-      content: 'The automation workflows they set up have saved us countless hours while improving our conversion rates. It\'s like having a 24/7 marketing team that never sleeps.',
+      content: 'The AI customer support handles basic inquiries and schedules service appointments. We\'ve cut our phone time in half while improving customer satisfaction.',
       rating: 5,
-      results: '+400% efficiency'
+      results: '+50% efficiency'
     },
     {
       id: 5,
-      name: 'Lisa Thompson',
-      role: 'CMO',
-      company: 'FutureScale',
+      name: 'Lisa Park',
+      role: 'Manager',
+      company: 'Sunset Spa & Wellness',
       avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150',
-      content: 'BareCloudz doesn\'t just execute campaigns, they become true partners in your growth journey. Their insights and strategic thinking have been invaluable to our success.',
+      content: 'Our booking system now works 24/7 and the AI handles customer questions about services and pricing. Revenue is up 45% since we started using BareCloudz.',
       rating: 5,
-      results: '+220% growth'
+      results: '+45% revenue'
     },
     {
       id: 6,
-      name: 'James Wilson',
-      role: 'Founder',
-      company: 'StartupBoost',
+      name: 'Carlos Martinez',
+      role: 'Owner',
+      company: 'Martinez Landscaping',
       avatar: 'https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=150',
-      content: 'From day one, they understood our vision and translated it into marketing campaigns that resonated with our audience. The results speak for themselves.',
+      content: 'The lead qualification system filters serious customers before they reach us. We\'re closing 70% more deals and spending less time on unqualified leads.',
       rating: 5,
-      results: '+350% conversions'
+      results: '+70% conversions'
     }
   ]
 
@@ -90,7 +90,7 @@ const Testimonials: React.FC = () => {
   }
 
   return (
-    <section className="py-32 bg-white relative overflow-hidden">
+    <section className="py-32 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-50/30 to-white"></div>
       <div className="absolute top-20 left-20 w-80 h-80 bg-[#35c677] opacity-5 rounded-full blur-3xl"></div>
@@ -105,13 +105,13 @@ const Testimonials: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-6xl font-bold text-[#191919] mb-6 leading-tight">
-            What our clients
+            Real results from
             <br />
-            <span className="text-[#35c677]">are saying</span>
+            <span className="text-[#35c677]">real businesses</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Don't just take our word for it. See how we've helped businesses like yours 
-            achieve remarkable growth through strategic marketing.
+            See how local businesses are transforming their operations and boosting 
+            revenue with our AI-powered automation solutions.
           </p>
         </motion.div>
 
@@ -185,14 +185,13 @@ const Testimonials: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <p className="text-gray-500 mb-8">Trusted by 500+ companies worldwide</p>
+          <p className="text-gray-500 mb-8">Trusted by 200+ local businesses</p>
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {/* You can replace these with actual client logos */}
-            <div className="text-2xl font-bold text-gray-400">TechFlow</div>
-            <div className="text-2xl font-bold text-gray-400">GrowthLab</div>
-            <div className="text-2xl font-bold text-gray-400">EcoVenture</div>
-            <div className="text-2xl font-bold text-gray-400">InnovateCorp</div>
-            <div className="text-2xl font-bold text-gray-400">FutureScale</div>
+            <div className="text-2xl font-bold text-gray-400">Restaurants</div>
+            <div className="text-2xl font-bold text-gray-400">Fitness Centers</div>
+            <div className="text-2xl font-bold text-gray-400">Medical Practices</div>
+            <div className="text-2xl font-bold text-gray-400">Auto Repair</div>
+            <div className="text-2xl font-bold text-gray-400">Spas & Salons</div>
           </div>
         </motion.div>
       </div>

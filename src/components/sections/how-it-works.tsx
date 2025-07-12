@@ -1,47 +1,47 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '../ui/button'
-import { ArrowRight, CheckCircle, Users, BarChart3, Rocket } from 'lucide-react'
+import { ArrowRight, CheckCircle, MessageSquare, Settings, Rocket } from 'lucide-react'
 
 const HowItWorks: React.FC = () => {
   const steps = [
     {
       step: '01',
       title: 'Discovery & Strategy',
-      description: 'We dive deep into your business goals, target audience, and competitive landscape to craft a personalized marketing strategy.',
-      icon: Users,
+      description: 'We analyze your business needs, customer journey, and identify the best AI automation opportunities to maximize your ROI.',
+      icon: MessageSquare,
       image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600',
       features: [
-        'Business analysis & goal setting',
-        'Target audience research',
-        'Competitive landscape review',
+        'Business process analysis',
+        'Customer journey mapping',
+        'AI opportunity assessment',
         'Custom strategy development'
       ]
     },
     {
       step: '02',
-      title: 'Campaign Creation',
-      description: 'Our AI-powered platform creates optimized campaigns across multiple channels, ensuring maximum reach and engagement.',
-      icon: Rocket,
+      title: 'Setup & Integration',
+      description: 'Our team builds and integrates your AI assistants, phone agents, and marketing campaigns with your existing systems.',
+      icon: Settings,
       image: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=600',
       features: [
-        'Multi-channel campaign setup',
-        'AI-optimized content creation',
-        'Advanced targeting configuration',
-        'Creative asset development'
+        'AI assistant configuration',
+        'Phone system integration',
+        'CRM and tool connections',
+        'Staff training and onboarding'
       ]
     },
     {
       step: '03',
       title: 'Launch & Optimize',
-      description: 'We launch your campaigns and continuously monitor performance, making real-time adjustments for optimal results.',
-      icon: BarChart3,
+      description: 'We launch your AI automation and continuously monitor performance, making real-time adjustments for optimal results.',
+      icon: Rocket,
       image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600',
       features: [
-        'Campaign launch & monitoring',
-        'Real-time performance tracking',
+        'Soft launch with testing',
+        'Performance monitoring',
         'Continuous optimization',
-        'Detailed reporting & insights'
+        'Monthly reporting & insights'
       ]
     }
   ]
@@ -61,12 +61,13 @@ const HowItWorks: React.FC = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-5xl md:text-6xl font-bold text-[#191919] mb-6 leading-tight">
-            How it
-            <span className="text-[#35c677]"> works</span>
+            How we launch your
+            <br />
+            <span className="text-[#35c677]">AI automation</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Our proven three-step process transforms your marketing from ordinary to extraordinary, 
-            delivering measurable results that drive business growth.
+            Our proven three-step process transforms your business operations from manual 
+            to automated, delivering measurable results that drive growth and efficiency.
           </p>
         </motion.div>
 
@@ -131,7 +132,7 @@ const HowItWorks: React.FC = () => {
                         size="lg" 
                         className="text-lg px-8 py-4 h-auto bg-[#35c677] hover:bg-[#2ba866] text-white shadow-lg hover:shadow-xl transition-all duration-300"
                       >
-                        <span>Start Your Campaign</span>
+                        <span>Start Your Automation</span>
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </motion.div>

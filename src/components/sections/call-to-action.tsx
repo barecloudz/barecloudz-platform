@@ -1,14 +1,14 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '../ui/button'
-import { ArrowRight, Sparkles, CheckCircle } from 'lucide-react'
+import { ArrowRight, Calendar, CheckCircle, Phone } from 'lucide-react'
 
 const CallToAction: React.FC = () => {
   const benefits = [
-    'Free strategy consultation',
-    '30-day money-back guarantee',
-    'Dedicated account manager',
-    'Real-time performance tracking'
+    'Free 30-minute consultation',
+    'Custom AI automation strategy',
+    'No setup fees or contracts',
+    '30-day money-back guarantee'
   ]
 
   return (
@@ -36,10 +36,10 @@ const CallToAction: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="inline-flex items-center space-x-2 bg-[#35c677]/20 border border-[#35c677]/30 rounded-full px-4 py-2">
-              <Sparkles className="h-4 w-4 text-[#35c677]" />
+            <div className="inline-flex items-center space-x-2 bg-[#35c677]/20 border border-[#35c677]/30 rounded-full px-6 py-3">
+              <Calendar className="h-5 w-5 text-[#35c677]" />
               <span className="text-sm font-medium text-white">
-                Limited Time Offer
+                Book Your Free Demo Today
               </span>
             </div>
           </motion.div>
@@ -52,9 +52,9 @@ const CallToAction: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
-            Ready to transform
+            Ready to automate
             <br />
-            <span className="text-[#35c677]">your marketing?</span>
+            <span className="text-[#35c677]">your business?</span>
           </motion.h2>
 
           {/* Supporting Text */}
@@ -65,8 +65,9 @@ const CallToAction: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Join hundreds of successful businesses that have revolutionized their growth 
-            with our AI-powered marketing solutions. Start your journey today.
+            Join hundreds of local businesses that have transformed their operations 
+            with AI automation. See how we can help you save time, increase bookings, 
+            and boost revenue starting today.
           </motion.p>
 
           {/* Benefits */}
@@ -104,8 +105,8 @@ const CallToAction: React.FC = () => {
               size="lg" 
               className="text-lg px-10 py-5 h-auto bg-[#35c677] hover:bg-[#2ba866] text-white shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
             >
-              <span>Start Free Consultation</span>
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <Calendar className="mr-2 h-5 w-5" />
+              <span>Book Free Demo</span>
             </Button>
             
             <Button 
@@ -113,7 +114,8 @@ const CallToAction: React.FC = () => {
               variant="outline" 
               className="text-lg px-10 py-5 h-auto border-2 border-white text-white hover:bg-white hover:text-[#191919] transition-all duration-300"
             >
-              <span>View Case Studies</span>
+              <Phone className="mr-2 h-5 w-5" />
+              <span>Call (555) 123-4567</span>
             </Button>
           </motion.div>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'wouter'
 import { motion } from 'framer-motion'
 import { Button } from '../ui/button'
-import { Cloud, Menu, X } from 'lucide-react'
+import { Cloud, Menu, X, Phone } from 'lucide-react'
 
 const Header: React.FC = () => {
   const [location] = useLocation()
@@ -11,14 +11,14 @@ const Header: React.FC = () => {
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/services', label: 'Services' },
+    { href: '/case-studies', label: 'Case Studies' },
     { href: '/about', label: 'About' },
-    { href: '/blog', label: 'Blog' },
     { href: '/contact', label: 'Contact' },
   ]
 
   return (
     <motion.header 
-      className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200/50 z-50"
+      className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-200/50 z-50"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <motion.a
@@ -63,7 +63,14 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
+            <a 
+              href="tel:+15551234567"
+              className="flex items-center space-x-2 text-gray-700 hover:text-[#35c677] transition-colors"
+            >
+              <Phone className="h-4 w-4" />
+              <span className="font-medium">(555) 123-4567</span>
+            </a>
             <Link href="/auth/login">
               <Button variant="ghost" size="lg" className="text-lg">
                 Sign In
@@ -71,14 +78,14 @@ const Header: React.FC = () => {
             </Link>
             <Link href="/contact">
               <Button size="lg" className="text-lg px-6 bg-[#35c677] hover:bg-[#2ba866] shadow-lg hover:shadow-xl transition-all duration-300">
-                Get Started
+                Book Demo
               </Button>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             whileTap={{ scale: 0.95 }}
           >
@@ -89,7 +96,7 @@ const Header: React.FC = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <motion.nav
-            className="md:hidden py-6 border-t border-gray-200/50"
+            className="lg:hidden py-6 border-t border-gray-200/50"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -113,6 +120,13 @@ const Header: React.FC = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
+                <a 
+                  href="tel:+15551234567"
+                  className="flex items-center space-x-2 text-gray-700 hover:text-[#35c677] transition-colors py-2"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span className="font-medium">(555) 123-4567</span>
+                </a>
                 <Link href="/auth/login">
                   <Button variant="outline" size="lg" className="w-full text-lg">
                     Sign In
@@ -120,7 +134,7 @@ const Header: React.FC = () => {
                 </Link>
                 <Link href="/contact">
                   <Button size="lg" className="w-full text-lg bg-[#35c677] hover:bg-[#2ba866]">
-                    Get Started
+                    Book Demo
                   </Button>
                 </Link>
               </div>
