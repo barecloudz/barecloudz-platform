@@ -2,8 +2,10 @@ import React from 'react'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
 import Hero from '../components/sections/hero'
-import Services from '../components/sections/services'
-import Contact from '../components/sections/contact'
+import Features from '../components/sections/features'
+import HowItWorks from '../components/sections/how-it-works'
+import Testimonials from '../components/sections/testimonials'
+import CallToAction from '../components/sections/call-to-action'
 
 const HomePage: React.FC = () => {
   return (
@@ -11,8 +13,10 @@ const HomePage: React.FC = () => {
       <Header />
       <main>
         <Hero />
-        <Services />
-        <Contact />
+        <Features />
+        <HowItWorks />
+        <Testimonials />
+        <CallToAction />
       </main>
       <Footer />
     </div>
