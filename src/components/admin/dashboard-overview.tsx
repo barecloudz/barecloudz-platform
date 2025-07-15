@@ -1,14 +1,65 @@
 import React from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
+import { useLocation } from 'wouter'
+import { getClients, getMarketingPlans, getInvoices, getContacts } from '../../lib/supabase'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Users, DollarSign, FileText, TrendingUp, Clock, MessageSquare } from 'lucide-react'
 
 const DashboardOverview: React.FC = () => {
+  const [, navigate] = useLocation()
+
+  // Fetch dashboard data
+  const { data: clients = [] } = useQuery({
+    queryKey: ['clients'],
+    queryFn: async () => {
+      const { data, error } = await getClients()
+      if (error) throw error
+      return data || []
+    }
+  })
+
+  const { data: plans = [] } = useQuery({
+    queryKey: ['marketing-plans'],
+    queryFn: async () => {
+      const { data, error } = await getMarketingPlans()
+      if (error) throw error
+      return data || []
+    }
+  })
+
+  const { data: invoices = [] } = useQuery({
+    queryKey: ['invoices'],
+    queryFn: async () => {
+      const { data, error } = await getInvoices()
+      if (error) throw error
+      return data || []
+    }
+  })
+
+  const { data: contacts = [] } = useQuery({
+    queryKey: ['contacts'],
+    queryFn: async () => {
+      const { data, error } = await getContacts()
+      if (error) throw error
+      return data || []
+    }
+  })
+
+  // Calculate stats from real data
+  const totalRevenue = invoices
+    .filter(invoice => invoice.status === 'paid')
+    .reduce((sum, invoice) => sum + invoice.amount, 0)
+
+  const activeProjects = plans.filter(plan => 
+    plan.status === 'approved' || plan.status === 'pending'
+  ).length
+
   const stats = [
     {
       title: 'Total Clients',
-      value: '24',
+      value: clients.length.toString(),
       change: '+12%',
       changeType: 'positive',
       icon: Users,
@@ -16,7 +67,7 @@ const DashboardOverview: React.FC = () => {
     },
     {
       title: 'Monthly Revenue',
-      value: '$45,280',
+      value: `$${totalRevenue.toLocaleString()}`,
       change: '+8%',
       changeType: 'positive',
       icon: DollarSign,
@@ -24,16 +75,16 @@ const DashboardOverview: React.FC = () => {
     },
     {
       title: 'Active Projects',
-      value: '18',
+      value: activeProjects.toString(),
       change: '+5%',
       changeType: 'positive',
       icon: FileText,
       color: 'text-purple-600'
     },
     {
-      title: 'Conversion Rate',
-      value: '3.2%',
-      change: '+0.5%',
+      title: 'New Contacts',
+      value: contacts.filter(c => c.status === 'unread').length.toString(),
+      change: '+15%',
       changeType: 'positive',
       icon: TrendingUp,
       color: 'text-orange-600'
@@ -50,22 +101,22 @@ const DashboardOverview: React.FC = () => {
     },
     {
       id: 2,
-      type: 'invoice',
-      message: 'Invoice #INV-2025-001 paid',
+      type: 'plan',
+      message: 'New marketing plan created',
       time: '4 hours ago',
-      icon: DollarSign
+      icon: FileText
     },
     {
       id: 3,
-      type: 'project',
-      message: 'Marketing plan approved by client',
+      type: 'invoice',
+      message: 'Invoice payment received',
       time: '6 hours ago',
-      icon: FileText
+      icon: DollarSign
     },
     {
       id: 4,
       type: 'contact',
-      message: 'New contact form submission',
+      message: `${contacts.filter(c => c.status === 'unread').length} new contact submissions`,
       time: '1 day ago',
       icon: MessageSquare
     }
@@ -190,6 +241,7 @@ const DashboardOverview: React.FC = () => {
                   className="p-4 bg-[#35c677] text-white rounded-lg hover:bg-[#2ba866] transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate('/admin/clients')}
                 >
                   <Users className="h-6 w-6 mb-2" />
                   <span className="text-sm font-medium">Add Client</span>
@@ -198,6 +250,7 @@ const DashboardOverview: React.FC = () => {
                   className="p-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate('/admin/marketing-plans')}
                 >
                   <FileText className="h-6 w-6 mb-2" />
                   <span className="text-sm font-medium">Create Plan</span>
@@ -206,6 +259,7 @@ const DashboardOverview: React.FC = () => {
                   className="p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate('/admin/invoices')}
                 >
                   <DollarSign className="h-6 w-6 mb-2" />
                   <span className="text-sm font-medium">Send Invoice</span>
@@ -214,6 +268,7 @@ const DashboardOverview: React.FC = () => {
                   className="p-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate('/admin/contacts')}
                 >
                   <MessageSquare className="h-6 w-6 mb-2" />
                   <span className="text-sm font-medium">View Contacts</span>

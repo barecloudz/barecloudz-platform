@@ -5,12 +5,14 @@ import { authService } from '../../lib/auth'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
+  requiredRole?: 'admin' | 'client'
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
   const [, navigate] = useLocation()
   const [isLoading, setIsLoading] = React.useState(true)
   const [isAuthenticated, setIsAuthenticated] = React.useState(false)
+  const [hasPermission, setHasPermission] = React.useState(false)
 
   React.useEffect(() => {
     const checkAuth = async () => {
@@ -18,6 +20,19 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         const user = await authService.getCurrentUser()
         if (user) {
           setIsAuthenticated(true)
+          
+          // Check role-based access
+          if (requiredRole) {
+            if (user.role === requiredRole || user.role === 'admin') {
+              setHasPermission(true)
+            } else {
+              // Redirect based on user role
+              navigate(user.role === 'admin' ? '/admin/dashboard' : '/client/dashboard')
+              return
+            }
+          } else {
+            setHasPermission(true)
+          }
         } else {
           navigate('/auth/login')
         }
@@ -29,7 +44,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     }
 
     checkAuth()
-  }, [navigate])
+  }, [navigate, requiredRole])
 
   if (isLoading) {
     return (
@@ -42,7 +57,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     )
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !hasPermission) {
     return null
   }
 

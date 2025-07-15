@@ -1,56 +1,58 @@
 import React from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
+import { getClients, insertClient, updateClient, deleteClient } from '../../lib/supabase'
 import AdminSidebar from '../../components/layout/admin-sidebar'
+import AddClientModal from '../../components/admin/add-client-modal'
+import EditClientModal from '../../components/admin/edit-client-modal'
+import InviteClientModal from '../../components/admin/invite-client-modal'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
 import { Badge } from '../../components/ui/badge'
-import { Plus, Search, Edit, Trash2, Mail, Phone, Globe } from 'lucide-react'
+import { Plus, Search, Edit, Trash2, Mail, Phone, Globe, UserPlus } from 'lucide-react'
 
 const AdminClients: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
+  const [isAddClientModalOpen, setIsAddClientModalOpen] = React.useState(false)
+  const [isEditClientModalOpen, setIsEditClientModalOpen] = React.useState(false)
+  const [isInviteClientModalOpen, setIsInviteClientModalOpen] = React.useState(false)
+  const [selectedClient, setSelectedClient] = React.useState<any>(null)
+  const queryClient = useQueryClient()
 
-  const clients = [
-    {
-      id: 1,
-      name: 'Tech Startup Co',
-      email: 'contact@techstartup.com',
-      company: 'Tech Startup Co',
-      phone: '+1 (555) 123-4567',
-      industry: 'Technology',
-      website: 'https://techstartup.com',
-      status: 'active',
-      projects: 3,
-      revenue: 15000,
-      joinedDate: '2024-01-15'
-    },
-    {
-      id: 2,
-      name: 'E-commerce Store',
-      email: 'hello@ecomstore.com',
-      company: 'E-commerce Store',
-      phone: '+1 (555) 987-6543',
-      industry: 'E-commerce',
-      website: 'https://ecomstore.com',
-      status: 'active',
-      projects: 2,
-      revenue: 8500,
-      joinedDate: '2024-02-20'
-    },
-    {
-      id: 3,
-      name: 'Local Restaurant',
-      email: 'info@localrestaurant.com',
-      company: 'Local Restaurant',
-      phone: '+1 (555) 456-7890',
-      industry: 'Food & Beverage',
-      website: 'https://localrestaurant.com',
-      status: 'pending',
-      projects: 1,
-      revenue: 3200,
-      joinedDate: '2024-03-10'
+  // Fetch clients from Supabase
+  const { data: clients = [], isLoading, error } = useQuery({
+    queryKey: ['clients'],
+    queryFn: async () => {
+      const { data, error } = await getClients()
+      if (error) throw error
+      return data || []
     }
-  ]
+  })
+
+  // Delete client mutation
+  const deleteClientMutation = useMutation({
+    mutationFn: deleteClient,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['clients'] })
+    }
+  })
+
+  const handleDeleteClient = async (id: string) => {
+    if (confirm('Are you sure you want to delete this client?')) {
+      deleteClientMutation.mutate(id)
+    }
+  }
+
+  const handleEditClient = (client: any) => {
+    setSelectedClient(client)
+    setIsEditClientModalOpen(true)
+  }
+
+  const handleInviteClient = (client: any) => {
+    setSelectedClient(client)
+    setIsInviteClientModalOpen(true)
+  }
 
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -90,7 +92,10 @@ const AdminClients: React.FC = () => {
                 Manage your clients and their projects
               </p>
             </div>
-            <Button className="flex items-center space-x-2">
+            <Button 
+              className="flex items-center space-x-2"
+              onClick={() => setIsAddClientModalOpen(true)}
+            >
               <Plus className="h-4 w-4" />
               <span>Add Client</span>
             </Button>
@@ -114,6 +119,25 @@ const AdminClients: React.FC = () => {
               </div>
             </CardHeader>
             <CardContent>
+              {isLoading && (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#35c677]"></div>
+                </div>
+              )}
+              
+              {error && (
+                <div className="text-red-500 text-center py-8">
+                  Error loading clients: {error.message}
+                </div>
+              )}
+              
+              {!isLoading && !error && clients.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                  No clients found. Add your first client to get started.
+                </div>
+              )}
+              
+              {!isLoading && !error && clients.length > 0 && (
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -129,12 +153,6 @@ const AdminClients: React.FC = () => {
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
                         Status
-                      </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Projects
-                      </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Revenue
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
                         Actions
@@ -168,18 +186,22 @@ const AdminClients: React.FC = () => {
                                 {client.email}
                               </span>
                             </div>
+                            {client.phone && (
                             <div className="flex items-center space-x-2">
                               <Phone className="h-3 w-3 text-gray-400" />
                               <span className="text-sm text-gray-600">
                                 {client.phone}
                               </span>
                             </div>
+                            )}
+                            {client.website && (
                             <div className="flex items-center space-x-2">
                               <Globe className="h-3 w-3 text-gray-400" />
                               <span className="text-sm text-gray-600">
                                 {client.website}
                               </span>
                             </div>
+                            )}
                           </div>
                         </td>
                         <td className="py-4 px-4">
@@ -193,21 +215,28 @@ const AdminClients: React.FC = () => {
                           </Badge>
                         </td>
                         <td className="py-4 px-4">
-                          <span className="text-sm font-medium text-[#191919]">
-                            {client.projects}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className="text-sm font-medium text-[#35c677]">
-                            ${client.revenue.toLocaleString()}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
                           <div className="flex items-center space-x-2">
-                            <Button size="sm" variant="outline">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleEditClient(client)}
+                            >
                               <Edit className="h-3 w-3" />
                             </Button>
-                            <Button size="sm" variant="outline">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleInviteClient(client)}
+                              title="Invite to Client Portal"
+                            >
+                              <UserPlus className="h-3 w-3" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleDeleteClient(client.id)}
+                              disabled={deleteClientMutation.isPending}
+                            >
                               <Trash2 className="h-3 w-3" />
                             </Button>
                           </div>
@@ -217,8 +246,32 @@ const AdminClients: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+              )}
             </CardContent>
           </Card>
+
+          <AddClientModal 
+            isOpen={isAddClientModalOpen}
+            onClose={() => setIsAddClientModalOpen(false)}
+          />
+          
+          <EditClientModal 
+            isOpen={isEditClientModalOpen}
+            onClose={() => {
+              setIsEditClientModalOpen(false)
+              setSelectedClient(null)
+            }}
+            client={selectedClient}
+          />
+          
+          <InviteClientModal 
+            isOpen={isInviteClientModalOpen}
+            onClose={() => {
+              setIsInviteClientModalOpen(false)
+              setSelectedClient(null)
+            }}
+            client={selectedClient}
+          />
         </motion.div>
       </main>
     </div>

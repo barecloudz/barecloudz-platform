@@ -131,10 +131,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Demo credentials:
+              Demo credentials (will be created automatically):
             </p>
             <p className="text-sm text-[#35c677]">
               admin@barecloudz.com / admin123
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              Or sign up with any email/password
             </p>
           </div>
         </CardContent>

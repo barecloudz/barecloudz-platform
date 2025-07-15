@@ -1,6 +1,9 @@
 import React from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
+import { getMarketingPlans } from '../../lib/supabase'
 import AdminSidebar from '../../components/layout/admin-sidebar'
+import CreateMarketingPlanModal from '../../components/admin/create-marketing-plan-modal'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Badge } from '../../components/ui/badge'
@@ -8,48 +11,17 @@ import { Plus, Sparkles, Eye, Edit, Download } from 'lucide-react'
 
 const AdminMarketingPlans: React.FC = () => {
   const [isGenerating, setIsGenerating] = React.useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false)
 
-  const plans = [
-    {
-      id: 1,
-      title: 'Tech Startup Growth Strategy',
-      client: 'Tech Startup Co',
-      businessType: 'B2B SaaS',
-      industry: 'Technology',
-      budget: 15000,
-      status: 'approved',
-      goals: ['Brand Awareness', 'Lead Generation'],
-      channels: ['Social Media', 'SEO', 'Content Marketing'],
-      createdAt: '2024-01-15',
-      updatedAt: '2024-01-20'
-    },
-    {
-      id: 2,
-      title: 'E-commerce Revenue Boost',
-      client: 'E-commerce Store',
-      businessType: 'E-commerce',
-      industry: 'Retail',
-      budget: 8500,
-      status: 'pending',
-      goals: ['Sales Growth', 'Customer Retention'],
-      channels: ['Email Marketing', 'Paid Ads', 'Social Media'],
-      createdAt: '2024-02-20',
-      updatedAt: '2024-02-22'
-    },
-    {
-      id: 3,
-      title: 'Local Restaurant Visibility',
-      client: 'Local Restaurant',
-      businessType: 'Local Business',
-      industry: 'Food & Beverage',
-      budget: 3200,
-      status: 'draft',
-      goals: ['Local Awareness', 'Customer Acquisition'],
-      channels: ['Local SEO', 'Social Media', 'Google Ads'],
-      createdAt: '2024-03-10',
-      updatedAt: '2024-03-12'
+  // Fetch marketing plans from Supabase
+  const { data: plans = [], isLoading, error } = useQuery({
+    queryKey: ['marketing-plans'],
+    queryFn: async () => {
+      const { data, error } = await getMarketingPlans()
+      if (error) throw error
+      return data || []
     }
-  ]
+  })
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -104,7 +76,10 @@ const AdminMarketingPlans: React.FC = () => {
                   {isGenerating ? 'Generating...' : 'Generate AI Plan'}
                 </span>
               </Button>
-              <Button className="flex items-center space-x-2">
+              <Button 
+                className="flex items-center space-x-2"
+                onClick={() => setIsCreateModalOpen(true)}
+              >
                 <Plus className="h-4 w-4" />
                 <span>Create Plan</span>
               </Button>
@@ -129,6 +104,25 @@ const AdminMarketingPlans: React.FC = () => {
             </motion.div>
           )}
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#35c677]"></div>
+            </div>
+          )}
+          
+          {error && (
+            <div className="text-red-500 text-center py-16">
+              Error loading marketing plans: {error.message}
+            </div>
+          )}
+          
+          {!isLoading && !error && plans.length === 0 && (
+            <div className="text-center py-16 text-gray-500">
+              No marketing plans found. Create your first plan to get started.
+            </div>
+          )}
+          
+          {!isLoading && !error && plans.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {plans.map((plan) => (
               <motion.div
@@ -146,7 +140,7 @@ const AdminMarketingPlans: React.FC = () => {
                           {plan.title}
                         </CardTitle>
                         <p className="text-sm text-gray-600">
-                          {plan.client}
+                          {plan.clients?.name || 'Unknown Client'}
                         </p>
                       </div>
                       <Badge variant={getStatusColor(plan.status) as any}>
@@ -158,7 +152,7 @@ const AdminMarketingPlans: React.FC = () => {
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
                         <span className="text-gray-500">Business Type:</span>
-                        <p className="font-medium">{plan.businessType}</p>
+                        <p className="font-medium">{plan.business_type}</p>
                       </div>
                       <div>
                         <span className="text-gray-500">Industry:</span>
@@ -176,7 +170,7 @@ const AdminMarketingPlans: React.FC = () => {
                     <div>
                       <span className="text-gray-500 text-sm">Goals:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
-                        {plan.goals.map((goal, index) => (
+                        {plan.goals?.map((goal, index) => (
                           <Badge key={index} variant="outline" className="text-xs">
                             {goal}
                           </Badge>
@@ -187,7 +181,7 @@ const AdminMarketingPlans: React.FC = () => {
                     <div>
                       <span className="text-gray-500 text-sm">Channels:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
-                        {plan.channels.map((channel, index) => (
+                        {plan.channels?.map((channel, index) => (
                           <Badge key={index} variant="secondary" className="text-xs">
                             {channel}
                           </Badge>
@@ -208,7 +202,7 @@ const AdminMarketingPlans: React.FC = () => {
                         </Button>
                       </div>
                       <span className="text-xs text-gray-500">
-                        Updated {new Date(plan.updatedAt).toLocaleDateString()}
+                        Updated {new Date(plan.updated_at).toLocaleDateString()}
                       </span>
                     </div>
                   </CardContent>
@@ -216,6 +210,12 @@ const AdminMarketingPlans: React.FC = () => {
               </motion.div>
             ))}
           </div>
+          )}
+
+          <CreateMarketingPlanModal 
+            isOpen={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+          />
         </motion.div>
       </main>
     </div>

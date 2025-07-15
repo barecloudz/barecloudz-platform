@@ -7,6 +7,14 @@ import LoginPage from './pages/auth/login'
 import AdminDashboard from './pages/admin/dashboard'
 import AdminClients from './pages/admin/clients'
 import AdminMarketingPlans from './pages/admin/marketing-plans'
+import AdminInvoices from './pages/admin/invoices'
+import AdminBlog from './pages/admin/blog'
+import AdminDocuments from './pages/admin/documents'
+import AdminContacts from './pages/admin/contacts'
+import AdminSettings from './pages/admin/settings'
+import BlogIndex from './pages/blog/index'
+import BlogPost from './pages/blog/post'
+import ClientDashboard from './pages/client/dashboard'
 import ProtectedRoute from './components/auth/protected-route'
 import './index.css'
 
@@ -25,20 +33,52 @@ function App() {
       <div className="min-h-screen bg-white">
         <Switch>
           <Route path="/" component={HomePage} />
+          <Route path="/blog" component={BlogIndex} />
+          <Route path="/blog/:slug" component={BlogPost} />
           <Route path="/auth/login" component={LoginPage} />
+          <Route path="/client/dashboard">
+            <ProtectedRoute requiredRole="client">
+              <ClientDashboard />
+            </ProtectedRoute>
+          </Route>
           <Route path="/admin/dashboard">
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="admin">
               <AdminDashboard />
             </ProtectedRoute>
           </Route>
           <Route path="/admin/clients">
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="admin">
               <AdminClients />
             </ProtectedRoute>
           </Route>
           <Route path="/admin/marketing-plans">
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="admin">
               <AdminMarketingPlans />
+            </ProtectedRoute>
+          </Route>
+          <Route path="/admin/invoices">
+            <ProtectedRoute requiredRole="admin">
+              <AdminInvoices />
+            </ProtectedRoute>
+          </Route>
+          <Route path="/admin/blog">
+            <ProtectedRoute requiredRole="admin">
+              <AdminBlog />
+            </ProtectedRoute>
+          </Route>
+          <Route path="/admin/documents">
+            <ProtectedRoute requiredRole="admin">
+              <AdminDocuments />
+            </ProtectedRoute>
+          </Route>
+          <Route path="/admin/contacts">
+            <ProtectedRoute requiredRole="admin">
+              <AdminContacts />
+            </ProtectedRoute>
+          </Route>
+          <Route path="/admin/settings">
+            <ProtectedRoute requiredRole="admin">
+              <AdminSettings />
             </ProtectedRoute>
           </Route>
           <Route>
