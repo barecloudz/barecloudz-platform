@@ -1,9 +1,17 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query'
+import { getCompanySettings } from '../../lib/supabase'
 import { Button } from '../ui/button'
 import { ArrowRight, Calendar, CheckCircle, Phone } from 'lucide-react'
 
 const CallToAction: React.FC = () => {
+  // Fetch company settings for dynamic phone number
+  const { data: companySettings } = useQuery({
+    queryKey: ['company-settings'],
+    queryFn: getCompanySettings
+  })
+
   const benefits = [
     'Free 30-minute consultation',
     'Custom AI automation strategy',
@@ -54,43 +62,49 @@ const CallToAction: React.FC = () => {
           >
             Ready to automate
             <br />
-            <span className="text-[#35c677]">your business?</span>
+            <span className="text-white">your business?</span>
           </motion.h2>
 
           {/* Supporting Text */}
-          <motion.p
-            className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed"
+          <motion.div
+            className="relative mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Join hundreds of local businesses that have transformed their operations 
-            with AI automation. See how we can help you save time, increase bookings, 
-            and boost revenue starting today.
-          </motion.p>
+            <div className="absolute inset-0 bg-black/80 rounded-lg"></div>
+            <p className="relative text-xl md:text-2xl text-white p-6 leading-relaxed">
+              Join hundreds of local businesses that have transformed their operations 
+              with AI automation. See how we can help you save time, increase bookings, 
+              and boost revenue starting today.
+            </p>
+          </motion.div>
 
           {/* Benefits */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-12"
+            className="relative mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                className="flex items-center space-x-3"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-              >
-                <CheckCircle className="h-6 w-6 text-[#35c677] flex-shrink-0" />
-                <span className="text-gray-300 text-lg">{benefit}</span>
-              </motion.div>
-            ))}
+            <div className="absolute inset-0 bg-black/80 rounded-lg"></div>
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto p-6">
+              {benefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center space-x-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                >
+                  <CheckCircle className="h-6 w-6 text-[#35c677] flex-shrink-0" />
+                  <span className="text-white text-lg">{benefit}</span>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
           {/* CTA Buttons */}
@@ -112,10 +126,10 @@ const CallToAction: React.FC = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="text-lg px-10 py-5 h-auto border-2 border-white text-white hover:bg-white hover:text-[#191919] transition-all duration-300"
+              className="text-lg px-10 py-5 h-auto border-2 border-white bg-white text-black hover:bg-gray-100 hover:text-[#191919] transition-all duration-300"
             >
               <Phone className="mr-2 h-5 w-5" />
-              <span>Call (555) 123-4567</span>
+              <span>Call {companySettings?.phone || '(803) 977-4285'}</span>
             </Button>
           </motion.div>
 
