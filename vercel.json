@@ -1,14 +1,5 @@
 {
-  "functions": {
-    "supabase/functions/invite-client/index.ts": {
-      "runtime": "vercel-deno@1.0.0"
-    }
-  },
   "rewrites": [
-    {
-      "source": "/api/functions/v1/(.*)",
-      "destination": "/supabase/functions/$1"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
